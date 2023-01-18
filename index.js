@@ -1,4 +1,6 @@
 require('dotenv').config();
+require('./health-check');
+
 const fetch = require('node-fetch');
 const { Telegraf } = require('telegraf');
 
@@ -17,7 +19,9 @@ bot.on('message', (ctx) => {
     fetch(weatherAPIUrl)
       .then((response) => response.json())
       .then(({ data }) => {
-        const msg = `${data.city.name}(${data.city.population}ppl) - ${data.city.state}: ${data.autoContent.days[0].next24} ${Math.round(data.day1[0].values.temperature)} °C`;
+        const msg = `${data.city.name}(${data.city.population}ppl) - ${data.city.state}: ${
+          data.autoContent.days[0].next24
+        } ${Math.round(data.day1[0].values.temperature)} °C`;
         ctx.reply(msg);
       })
       .catch(function (err) {
